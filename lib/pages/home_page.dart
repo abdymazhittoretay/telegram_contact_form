@@ -8,10 +8,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Home Page"), centerTitle: true),
+      body: SafeArea(
+        child: Center(child: Form(key: _formKey, child: Column(children: []))),
+      ),
     );
   }
 }
