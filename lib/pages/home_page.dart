@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
-                    controller: _nameController,
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: "Your email",
                       border: OutlineInputBorder(),
@@ -53,11 +53,24 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(height: 16.0),
                   TextFormField(
-                    controller: _nameController,
+                    controller: _messageController,
                     decoration: InputDecoration(
                       hintText: "Your message",
                       border: OutlineInputBorder(),
                     ),
+                  ),
+                  SizedBox(height: 32.0),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
+                      shape: LinearBorder(),
+                      minimumSize: Size(double.maxFinite, 75),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {}
+                    },
+                    child: Text("Send", style: TextStyle(fontSize: 22.0)),
                   ),
                 ],
               ),
