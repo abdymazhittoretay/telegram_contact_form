@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                       hintText: "Your message",
                       border: OutlineInputBorder(),
                     ),
+                    maxLines: 4,
                   ),
                   SizedBox(height: 32.0),
                   ElevatedButton(
