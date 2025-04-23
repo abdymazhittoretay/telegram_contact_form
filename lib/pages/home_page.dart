@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        loadDialog();
                         await sendMessage();
                         confirmationDialog();
                         _nameController.clear();
@@ -104,7 +105,13 @@ Message: ${_messageController.text}
 ''';
     final url = Uri.parse('https://api.telegram.org/bot$_botToken/sendMessage');
 
-    await http.post(url, body: {"chat_id": _chatID, "text": message});
+    try {
+      await http.post(url, body: {"chat_id": _chatID, "text": message});
+      if (mounted) Navigator.pop(context);
+    } catch (e) {
+      print(e);
+      if (mounted) Navigator.pop(context);
+    }
   }
 
   String? validateEmail(String? value) {
@@ -150,6 +157,13 @@ Message: ${_messageController.text}
               ),
             ],
           ),
+    );
+  }
+
+  void loadDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => Center(child: CircularProgressIndicator()),
     );
   }
 }
