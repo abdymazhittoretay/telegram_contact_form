@@ -69,7 +69,12 @@ class _HomePageState extends State<HomePage> {
                       minimumSize: Size(double.maxFinite, 75),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        confirmationDialog();
+                        _nameController.clear();
+                        _emailController.clear();
+                        _messageController.clear();
+                      }
                     },
                     child: Text("Send", style: TextStyle(fontSize: 22.0)),
                   ),
@@ -79,6 +84,35 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  void confirmationDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            shape: LinearBorder(),
+            content: Text(
+              "Your message was sent!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18.0),
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(
+                  minimumSize: Size(100, 50),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK", style: TextStyle(fontSize: 16.0)),
+              ),
+            ],
+          ),
     );
   }
 }
