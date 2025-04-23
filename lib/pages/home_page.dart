@@ -89,6 +89,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter your email";
+    }
     const pattern =
         r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
         r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
@@ -99,9 +102,7 @@ class _HomePageState extends State<HomePage> {
         r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
     final regex = RegExp(pattern);
 
-    return value!.isNotEmpty && !regex.hasMatch(value)
-        ? 'Enter a valid email address'
-        : null;
+    return regex.hasMatch(value) ? null : "Enter a valid email address";
   }
 
   void confirmationDialog() {
