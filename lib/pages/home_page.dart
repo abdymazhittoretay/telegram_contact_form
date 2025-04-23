@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +14,10 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
+
+  final String? _botToken = dotenv.env["BOT_TOKEN"];
+  final String? _chatID = dotenv.env["CHAT_ID"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,8 +75,9 @@ class _HomePageState extends State<HomePage> {
                       shape: LinearBorder(),
                       minimumSize: Size(double.maxFinite, 75),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        await sendMessage();
                         confirmationDialog();
                         _nameController.clear();
                         _emailController.clear();
@@ -86,6 +93,18 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> sendMessage() async {
+    final String message = '''
+New contact request:
+Name: ${_nameController.text}
+Email: ${_emailController.text}
+Message: ${_messageController.text}
+''';
+    final url = Uri.parse('https://api.telegram.org/bot$_botToken/sendMessage');
+
+    await http.post(url, body: {"chat_id": _chatID, "text": message});
   }
 
   String? validateEmail(String? value) {
